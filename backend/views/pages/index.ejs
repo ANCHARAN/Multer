@@ -15,7 +15,6 @@
       <label id="ImageContainerLabel" for="File">
       Files - <input type="file" multiple accept="image/gif, image/jpeg, image/png" name="avatar" id="FileInput"/>
   </label>
-      <!-- <img id="imagePreview" name="image" src="" alt="Image Preview" style="display:block; max-width: 200px; max-height: 200px;" /> -->
       <br />
       <input type="submit" value="Upload File" />
     </form>
@@ -51,9 +50,6 @@ imageContainer.appendChild(img);
             body: formData,
           });          // Parse the response
           const result = await response.json();
-          // var image=document.getElementById('imagePreview');
-          // image.style.display="none";
-          // console.log(image.style.display)
           // Check for server response status
           if (response.ok) {
             // Success - display a success message
