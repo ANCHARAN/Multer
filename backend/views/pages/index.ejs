@@ -1,0 +1,78 @@
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <p id="feedback-message"></p>
+    <form
+      action="/upload"``
+      method="POST"
+      id="uploadForm"
+      enctype="multipart/form-data" >
+      <label id="ImageContainerLabel" for="File">
+      Files - <input type="file" multiple accept="image/gif, image/jpeg, image/png" name="avatar" id="FileInput"/>
+  </label>
+      <!-- <img id="imagePreview" name="image" src="" alt="Image Preview" style="display:block; max-width: 200px; max-height: 200px;" /> -->
+      <br />
+      <input type="submit" value="Upload File" />
+    </form>
+    <div id="message"></div>
+    <script>
+      const imageContainer=document.createElement('div')
+      document.getElementById('ImageContainerLabel').appendChild(imageContainer)
+      console.log(imageContainer)
+        document.getElementById('FileInput').addEventListener('change',function(e){
+          console.log("I am Here")
+          const length=e.target.files.length;
+console.log(length)
+
+//considering you have images in a variable for js...
+for(var i=0;i<length;i++){
+const img=document.createElement('img');
+img.src=URL.createObjectURL(e.target.files[i]);
+img.alt="Image Preview";
+img.style.width='200px';
+img.style.height='200px';
+imageContainer.appendChild(img);
+}
+        })
+    document.getElementById('uploadForm').addEventListener('submit', async function (e) {
+        e.preventDefault(); // Prevent default form submission
+        // Get the form data
+      const formData = new FormData(this);
+      console.log(formData)
+        try {
+          // Send the form data using Fetch API
+          const response = await fetch(this.action, {
+            method: 'POST',
+            body: formData,
+          });          // Parse the response
+          const result = await response.json();
+          // var image=document.getElementById('imagePreview');
+          // image.style.display="none";
+          // console.log(image.style.display)
+          // Check for server response status
+          if (response.ok) {
+            // Success - display a success message
+            document.getElementById('message').innerText = result.message || 'File uploaded successfully!';
+            document.getElementById('message').style.color = 'green';
+            document.getElementById('ImageContainerLabel').removeChild(imageContainer)
+
+          } else {
+            // Error - display an error message
+            document.getElementById('message').innerText = result.error || 'An error occurred during the upload.';
+            document.getElementById('message').style.color = 'red';
+          }
+        } catch (error) {
+          // Network or other errors
+          document.getElementById('message').innerText = 'An unexpected error occurred.';
+          document.getElementById('message').style.color = 'red';
+        }
+        document.getElementById("uploadForm").reset()
+      });
+      </script> 
+  </body>
+</html>
