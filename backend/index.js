@@ -9,6 +9,7 @@ app.use(cors())
 app.set('view engine', 'ejs');
 app.use(bodyParser.json())
 
+// Method to upload a single file -> The multer middleware method changes.
 // const upload = multer({
 //     dest: 'public/users-avatar',
 // //destination folder is automatically created if it's not available
